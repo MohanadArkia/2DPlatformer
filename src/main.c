@@ -9,7 +9,7 @@ int main ()
     InitWindow(SCREEN_WIDTH, SCREEN_HEIGHT, "Simple 2D Platformer");
     SetTargetFPS(60);
 
-    Game *game;
+    Game game;
     Game_Init(&game, SCREEN_WIDTH, SCREEN_HEIGHT);
  
     while (!WindowShouldClose())
