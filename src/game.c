@@ -10,7 +10,8 @@ void Game_Init(Game *game, int width, int height)
 
 void Game_Update(Game *game)
 {
-    Player_Update(&game->player);
+    float deltaTime = GetFrameTime();
+    Player_Update(&game->player, deltaTime, game->screenHeight);
 }
 
 void Game_Draw(Game *game)

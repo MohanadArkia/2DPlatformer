@@ -10,6 +10,7 @@ int main ()
     SetTargetFPS(60);
 
     Game game;
+
     Game_Init(&game, SCREEN_WIDTH, SCREEN_HEIGHT);
  
     while (!WindowShouldClose())

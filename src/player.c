@@ -2,31 +2,43 @@
 
 void Player_Init(Player *player, float x, float y)
 {
-    player->position = (Vector2){x, y};
-    player->speed = 5.0f;
+    player->position = (Vector2){ x, y };
+    player->velocity = (Vector2){ 0, 0 };
     player->radius = 30.0f;
+    player->moveSpeed = 300.0f;
+    player->jumpForce = 500.0f;
+    player->isGrounded = false;
 }
 
-void Player_Update(Player *player)
+void Player_Update(Player *player, float deltaTime, int screenHeight)
 {
-    if (IsKeyDown(KEY_RIGHT))
+    const float gravity = 900.0f;
+
+    player->velocity.y += gravity * deltaTime;
+
+    if (IsKeyDown(KEY_A))
+        player->velocity.x = -player->moveSpeed;
+    else if (IsKeyDown(KEY_D))
+        player->velocity.x = player->moveSpeed;
+    else
+        player->velocity.x = 0;
+
+    if (IsKeyPressed(KEY_SPACE) && player->isGrounded)
     {
-	player->position.x += player->speed;
+        player->velocity.y = -player->jumpForce;
+        player->isGrounded = false;
     }
 
-    if (IsKeyDown(KEY_LEFT))
-    {
-	player->position.x -= player->speed;
-    }
+    player->position.x += player->velocity.x * deltaTime;
+    player->position.y += player->velocity.y * deltaTime;
 
-    if (IsKeyDown(KEY_UP))
+    // Ground collision
+    float groundY = screenHeight - 40;
+    if (player->position.y + player->radius >= groundY)
     {
-	player->position.y -= player->speed;
-    }
-
-    if (IsKeyDown(KEY_DOWN))
-    {
-	player->position.y += player->speed;
+        player->position.y = groundY - player->radius;
+        player->velocity.y = 0;
+        player->isGrounded = true;
     }
 }
 
