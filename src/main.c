@@ -7,10 +7,10 @@
 int main ()
 {
     InitWindow(SCREEN_WIDTH, SCREEN_HEIGHT, "Simple 2D Platformer");
+    InitAudioDevice();
     SetTargetFPS(60);
 
     Game game;
-
     Game_Init(&game, SCREEN_WIDTH, SCREEN_HEIGHT);
  
     while (!WindowShouldClose())
@@ -22,7 +22,8 @@ int main ()
 	
 	EndDrawing();
     }
-    //Game_Close(&game);
+    Game_Close(&game);
+    CloseAudioDevice();
     CloseWindow();
     return 0;
 }

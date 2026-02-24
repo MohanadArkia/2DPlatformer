@@ -2,12 +2,14 @@
 
 #include "raylib.h"
 #include "player.h"
+#include "audio.h"
 
 typedef struct Game
 {
     Player player;
     int screenWidth;
     int screenHeight;
+    AudioManager audio;
 } Game;
 
 void Game_Init(Game *game, int width, int height);

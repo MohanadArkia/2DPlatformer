@@ -17,5 +17,5 @@ typedef struct Player
 } Player;
 
 void Player_Init(Player *player, float x, float y);
-void Player_Update(Player *player, float deltaTime, int screenHeight);
+bool Player_Update(Player *player, float deltaTime, int screenHeight);
 void Player_Draw(Player *player);
