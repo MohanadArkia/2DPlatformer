@@ -1,6 +1,7 @@
 #pragma once
 
 #include "raylib.h"
+#include "object.h"
 
 typedef struct Player
 {
@@ -17,5 +18,5 @@ typedef struct Player
 } Player;
 
 void Player_Init(Player *player, float x, float y);
-bool Player_Update(Player *player, float deltaTime, int screenHeight);
+bool Player_Update(Player *player, float deltaTime, GameObject *objects, int objectCount);
 void Player_Draw(Player *player);

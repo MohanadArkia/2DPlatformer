@@ -11,7 +11,7 @@ void Player_Init(Player *player, float x, float y)
     player->isGrounded = false;
 }
 
-bool Player_Update(Player *player, float deltaTime, int screenHeight)
+bool Player_Update(Player *player, float deltaTime, GameObject *objects, int objectCount)
 {
     const float gravity = 900.0f;
     bool jumped = false;
@@ -39,13 +39,36 @@ bool Player_Update(Player *player, float deltaTime, int screenHeight)
     player->position.x += player->velocity.x * deltaTime;
     player->position.y += player->velocity.y * deltaTime;
 
-    // Ground collision
-    float groundY = screenHeight - 40;
-    if (player->position.y + player->radius >= groundY)
+    // Tag based collision
+    player->isGrounded = false;
+    for (int i = 0; i < objectCount; i++)
     {
-        player->position.y = groundY - player->radius;
-        player->velocity.y = 0;
-        player->isGrounded = true;
+	GameObject *obj = &objects[i];
+	if (!obj->active)
+	{
+	    continue;
+	}
+
+	if (obj->tag == TAG_GROUND)
+	{
+            float playerBottom = player->position.y + player->radius;
+            float objTop = obj->position.y;
+            float playerLeft = player->position.x - player->radius;
+            float playerRight = player->position.x + player->radius;
+            float objLeft = obj->position.x;
+            float objRight = obj->position.x + obj->size.x;
+
+            bool collidingX = playerRight > objLeft && playerLeft < objRight;
+            bool collidingY = playerBottom > objTop && player->position.y < objTop + obj->size.y;
+
+            if (collidingX && collidingY && player->velocity.y >= 0)
+            {
+                // Snap player to top of object
+                player->position.y = objTop - player->radius;
+                player->velocity.y = 0;
+                player->isGrounded = true;
+            }
+	}
     }
     return jumped;
 }
