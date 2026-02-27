@@ -5,6 +5,7 @@
 typedef struct AudioManager
 {
     Sound jump;
+    Sound collect;
     Music bgMusic;
 } AudioManager;
 

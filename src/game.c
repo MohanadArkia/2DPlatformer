@@ -40,6 +40,13 @@ void Game_Update(Game *game)
     {
 	PlaySound(game->audio.jump);
     }
+
+    if (game->player.isCollected)
+    {
+	PlaySound(game->audio.collect);
+	game->player.isCollected = false;
+    }
+    
     Audio_Update(&game->audio);
 }
 

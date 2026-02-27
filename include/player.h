@@ -15,6 +15,7 @@ typedef struct Player
     float jumpForce;
 
     bool isGrounded;
+    bool isCollected;
 
     int score;
 } Player;

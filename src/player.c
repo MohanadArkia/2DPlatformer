@@ -10,6 +10,7 @@ void Player_Init(Player *player, float x, float y)
     player->jumpForce = 200.0f;
     player->isGrounded = false;
     player->score = 0;
+    player->isCollected = false;
 }
 
 bool Player_Update(Player *player, float deltaTime, GameObject *objects, int objectCount)
@@ -89,6 +90,7 @@ bool Player_Update(Player *player, float deltaTime, GameObject *objects, int obj
 	    {
 		obj->active = false;
 		player->score += 1;
+		player->isCollected = true;
 	    }
 	}
     }
