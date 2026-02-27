@@ -10,6 +10,7 @@ ObjectTag Tag_FromString(const char* str)
     if (strcmp(str, "GROUND") == 0) return TAG_GROUND;
     if (strcmp(str, "COLLECTABLE") == 0) return TAG_COLLECTABLE;
     if (strcmp(str, "ENEMY") == 0) return TAG_ENEMY;
+    if (strcmp(str, "PLATFORM") == 0) return TAG_PLATFORM;
     return TAG_NONE;
 }
 
@@ -70,7 +71,7 @@ void Game_Init(Game *game, int width, int height)
     game->screenHeight = height;
 
     game->objectCount = 0;
-    Player_Init(&game->player, (width)/2, (height)/2);
+    Player_Init(&game->player, 35, height-100);
     Audio_Init(&game->audio);
 
     Game_LoadLevel(game, "assets/levels/level1.csv");
@@ -113,8 +114,15 @@ void Game_Draw(Game *game)
                 DrawRectangle(obj->position.x, obj->position.y, obj->size.x, obj->size.y, GREEN);
                 break;
 
+            case TAG_PLATFORM:
+                DrawRectangle(obj->position.x, obj->position.y, obj->size.x, obj->size.y, BLACK);
+                break;
+
 	    case TAG_COLLECTABLE:
-		DrawCircle(obj->position.x, obj->position.y, obj->size.x, ORANGE);
+		DrawCircle(obj->position.x, obj->position.y, obj->size.x, YELLOW);
+		break;
+    case TAG_ENEMY:
+                DrawRectangle(obj->position.x, obj->position.y, obj->size.x, obj->size.y, RED);
 		break;
 	    default:
                 break;
@@ -124,7 +132,6 @@ void Game_Draw(Game *game)
     char scoreText[50];
     sprintf(scoreText, "%d / 3", game->player.score);
     DrawText(scoreText, game->screenWidth/2, 0, 30, BLACK);
-    DrawCircle(0, 0, 90, YELLOW);
     Player_Draw(&game->player);
 }
 

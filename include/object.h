@@ -4,6 +4,7 @@ typedef enum ObjectTag
 {
     TAG_NONE,
     TAG_GROUND,
+    TAG_PLATFORM,
     TAG_COLLECTABLE,
     TAG_ENEMY
 } ObjectTag;
