@@ -2,8 +2,8 @@
 
 void Audio_Init(AudioManager *audio)
 {
-    audio->jump = LoadSound("assets/8bit_jump_soundEffect.mp3");
-    audio->bgMusic = LoadMusicStream("assets/8bit_regular_backgroundMusic.mp3");
+    audio->jump = LoadSound("assets/audio/8bit_jump_soundEffect.mp3");
+    audio->bgMusic = LoadMusicStream("assets/audio/8bit_regular_backgroundMusic.mp3");
 
     PlayMusicStream(audio->bgMusic);
 }

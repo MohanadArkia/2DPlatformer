@@ -9,6 +9,7 @@ void Player_Init(Player *player, float x, float y)
     player->moveSpeed = 300.0f;
     player->jumpForce = 200.0f;
     player->isGrounded = false;
+    player->score = 0;
 }
 
 bool Player_Update(Player *player, float deltaTime, GameObject *objects, int objectCount)
@@ -52,9 +53,9 @@ bool Player_Update(Player *player, float deltaTime, GameObject *objects, int obj
 	if (obj->tag == TAG_GROUND)
 	{
             float playerBottom = player->position.y + player->radius;
-            float objTop = obj->position.y;
             float playerLeft = player->position.x - player->radius;
             float playerRight = player->position.x + player->radius;
+            float objTop = obj->position.y;
             float objLeft = obj->position.x;
             float objRight = obj->position.x + obj->size.x;
 
@@ -68,6 +69,27 @@ bool Player_Update(Player *player, float deltaTime, GameObject *objects, int obj
                 player->velocity.y = 0;
                 player->isGrounded = true;
             }
+	}
+	if (obj->tag == TAG_COLLECTABLE)
+	{
+	    float playerLeft = player->position.x - player->radius;
+	    float playerRight = player->position.x + player->radius;
+	    float playerTop = player->position.y - player->radius;
+	    float playerBottom = player->position.y + player->radius;
+
+	    float objLeft = obj->position.x;
+	    float objRight = obj->position.x + obj->size.x;
+	    float objTop = obj->position.y;
+	    float objBottom = obj->position.y + obj->size.y;
+
+	    bool collidingX = playerRight > objLeft && playerLeft < objRight;
+	    bool collidingY = playerBottom > objTop && playerTop < objBottom;
+
+	    if (collidingX && collidingY)
+	    {
+		obj->active = false;
+		player->score += 1;
+	    }
 	}
     }
     return jumped;

@@ -15,6 +15,8 @@ typedef struct Player
     float jumpForce;
 
     bool isGrounded;
+
+    int score;
 } Player;
 
 void Player_Init(Player *player, float x, float y);

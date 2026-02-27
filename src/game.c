@@ -27,6 +27,8 @@ void Game_Init(Game *game, int width, int height)
 
     Add_Object(game, (Vector2){0, height - 40}, (Vector2){width, 40}, TAG_GROUND);
     Add_Object(game, (Vector2){80, height - 100}, (Vector2){150, 30}, TAG_GROUND);
+
+    Add_Object(game, (Vector2){width - 200, height - 100}, (Vector2){10, 10}, TAG_COLLECTABLE);
 }
 
 void Game_Update(Game *game)
@@ -59,6 +61,9 @@ void Game_Draw(Game *game)
                 DrawRectangle(obj->position.x, obj->position.y, obj->size.x, obj->size.y, GREEN);
                 break;
 
+	    case TAG_COLLECTABLE:
+		DrawCircle(obj->position.x, obj->position.y, obj->size.x, ORANGE);
+		break;
 	    default:
                 break;
         }
