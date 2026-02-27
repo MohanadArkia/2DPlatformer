@@ -2,4 +2,8 @@ A simple 2D game created with Raylib.
 
 Inspired by Bounce Tales Nokia game.
 
-Resources: https://www.raylib.com/examples.html
+Resources:
+
+https://www.raylib.com/examples.html
+
+https://www.raylib.com/cheatsheet/cheatsheet.html
