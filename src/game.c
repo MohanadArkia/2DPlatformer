@@ -1,6 +1,17 @@
 #include "game.h"
 #include "object.h"
 #include "stdio.h"
+#include <string.h>
+#include <stdio.h>
+
+
+ObjectTag Tag_FromString(const char* str)
+{
+    if (strcmp(str, "GROUND") == 0) return TAG_GROUND;
+    if (strcmp(str, "COLLECTABLE") == 0) return TAG_COLLECTABLE;
+    if (strcmp(str, "ENEMY") == 0) return TAG_ENEMY;
+    return TAG_NONE;
+}
 
 void Add_Object(Game *game, Vector2 position, Vector2 size, ObjectTag tag)
 {
@@ -17,6 +28,42 @@ void Add_Object(Game *game, Vector2 position, Vector2 size, ObjectTag tag)
     obj->active = true;
 }
 
+void Game_LoadLevel(Game *game, const char* filename)
+{
+    FILE *file = fopen(filename, "r");
+
+    if (!file)
+    {
+	printf("Failed to open levle file: %s\n", filename);
+	return;
+    }
+
+    game->objectCount = 0;
+
+    char line[256];
+    while (fgets(line, sizeof(line), file))
+    {
+	if (line[0] == '#' || line[0] == '\n')
+	{
+	    continue;
+	}
+
+	float x, y, width, height;
+	char tagString[32];
+	int result = sscanf(line, "%f,%f,%f,%f,%31[^\n]", &x, &y, &width, &height, tagString);
+
+	if (result == 5)
+	{
+	    Add_Object(game, (Vector2){x, y}, (Vector2){width, height}, Tag_FromString(tagString));
+	}
+	else
+	{
+	    printf("Failed to parse line: %s\n", line);
+	}
+    }
+    fclose(file);
+}
+
 void Game_Init(Game *game, int width, int height)
 {
     game->screenWidth = width;
@@ -26,10 +73,7 @@ void Game_Init(Game *game, int width, int height)
     Player_Init(&game->player, (width)/2, (height)/2);
     Audio_Init(&game->audio);
 
-    Add_Object(game, (Vector2){0, height - 40}, (Vector2){width, 40}, TAG_GROUND);
-    Add_Object(game, (Vector2){80, height - 100}, (Vector2){150, 30}, TAG_GROUND);
-
-    Add_Object(game, (Vector2){width - 200, height - 100}, (Vector2){10, 10}, TAG_COLLECTABLE);
+    Game_LoadLevel(game, "assets/levels/level1.csv");
 }
 
 void Game_Update(Game *game)

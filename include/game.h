@@ -22,3 +22,5 @@ void Game_Init(Game *game, int width, int height);
 void Game_Update(Game *game);
 void Game_Draw(Game *game);
 void Game_Close(Game *game);
+void Game_LoadLevel(Game *game, const char *filename);
+ObjectTag Tag_FromString(const char *str);
