@@ -7,7 +7,7 @@ void Player_Init(Player *player, float x, float y)
     player->velocity = (Vector2){ 0, 0 };
     player->radius = 30.0f;
     player->moveSpeed = 300.0f;
-    player->jumpForce = 500.0f;
+    player->jumpForce = 200.0f;
     player->isGrounded = false;
 }
 
