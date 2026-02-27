@@ -1,5 +1,6 @@
 #include "game.h"
 #include "object.h"
+#include "stdio.h"
 
 void Add_Object(Game *game, Vector2 position, Vector2 size, ObjectTag tag)
 {
@@ -76,7 +77,9 @@ void Game_Draw(Game *game)
         }
     }
 
-    DrawText("Score: ", (game->screenWidth)/2, 0, 30, BLACK);
+    char scoreText[50];
+    sprintf(scoreText, "%d / 3", game->player.score);
+    DrawText(scoreText, game->screenWidth/2, 0, 30, BLACK);
     DrawCircle(0, 0, 90, YELLOW);
     Player_Draw(&game->player);
 }
